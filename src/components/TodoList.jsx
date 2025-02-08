@@ -7,18 +7,16 @@ const TodoList = () => {
     "Watch Movie",
   ]);
   const [newTask, setNewTask] = useState("");
-  // const [task, setTask] = useState(["Write project", "Read book", "Watch Movie"]);
-  // const addTask = () => {
-  //   setTask([...task, newTask]);
-  //   console.log
 
   const handleInputChange = (e) => {
     setNewTask(e.target.value);
-    console.log(newTask);
   };
 
   const addTask = () => {
-    setTasks([...tasks, newTask]);
+    if (newTask.trim() !== "") {
+      setTasks([...tasks, newTask]);
+      setNewTask("");
+    }
   };
   return (
     <div className="px-8 flex flex-col justify-center items-center">
@@ -27,35 +25,33 @@ const TodoList = () => {
       </header>
       <main className="flex flex-col justify-center items-center">
         <h2 className="text-[28px] mb-6">Todo list:</h2>
-        <div className="border rounded-xl p-4 mb-4">
-          <form>
-            <label htmlFor="todo"></label>
-            <input
-              type="text"
-              id="todo"
-              name="todo"
-              value={newTask}
-              onChange={handleInputChange}
-              placeholder="write your task :"
-              className="h-[35px] p-2"
-            />
-          </form>
+        <div className="border rounded-xl p-4 mb-4 flex justify-center items-center">
+          <label htmlFor="todo"></label>
+          <input
+            type="text"
+            id="todo"
+            name="todo"
+            value={newTask}
+            onChange={handleInputChange}
+            placeholder="write your task :"
+            className="h-[35px] p-2"
+          />
+          <button className="cursor-pointer" onClick={addTask}>
+            <div className="border rounded-full">
+              <img
+                src="/public/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                alt="add"
+              />
+            </div>
+          </button>
         </div>
-        <ul className="border rounded-xl p-8 flex flex-col gap-4">
-          <li className="border rounded-4xl p-4">
-            <p>Write project</p>
-          </li>
-          <li className="border rounded-4xl p-4">
-            <p>Read book</p>
-          </li>
-          <li className="border rounded-4xl p-4">
-            <p>Watch Movie</p>
-          </li>
-        </ul>
-        <h2>List Demo</h2>
-        <ol className="list-decimal">
+        <ol className="list-decimal flex flex-col gap-4">
           {tasks.map((task, index) => {
-            return <li key={index}>{task}</li>;
+            return (
+              <li key={index} className="border rounded-4xl p-4">
+                {task}
+              </li>
+            );
           })}
         </ol>
       </main>
