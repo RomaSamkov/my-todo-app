@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TodoList = () => {
-  const [tasks, setTasks] = useState([
-    "Write project",
-    "Read book",
-    "Watch Movie",
-  ]);
+  const todo = JSON.parse(localStorage.getItem("todo"));
+
+  const [tasks, setTasks] = useState(todo || []);
   const [newTask, setNewTask] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleInputChange = (e) => {
     setNewTask(e.target.value);
@@ -18,6 +20,16 @@ const TodoList = () => {
       setNewTask("");
     }
   };
+
+  const editTask = (index) => {
+    console.log(index);
+  };
+
+  const removeTask = (index) => {
+    const filteredTasks = tasks.filter((t, i) => i !== index);
+    setTasks(filteredTasks);
+  };
+
   return (
     <div className="px-8 flex flex-col justify-center items-center">
       <header>
@@ -39,7 +51,7 @@ const TodoList = () => {
           <button className="cursor-pointer" onClick={addTask}>
             <div className="border rounded-full">
               <img
-                src="/public/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                src="/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
                 alt="add"
               />
             </div>
@@ -48,8 +60,30 @@ const TodoList = () => {
         <ol className="list-decimal flex flex-col gap-4">
           {tasks.map((task, index) => {
             return (
-              <li key={index} className="border rounded-4xl p-4">
-                {task}
+              <li key={index} className="border rounded-4xl p-4 flex gap-6">
+                <span>{task}</span>
+                <button
+                  className="cursor-pointer"
+                  onClick={() => removeTask(index)}
+                >
+                  <div className="">
+                    <img
+                      src="/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                      alt="add"
+                    />
+                  </div>
+                </button>
+                <button
+                  className="cursor-pointer"
+                  onClick={() => editTask(index)}
+                >
+                  <div className="">
+                    <img
+                      src="/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                      alt="add"
+                    />
+                  </div>
+                </button>
               </li>
             );
           })}
