@@ -5,14 +5,12 @@ const TodoList = () => {
 
   const [tasks, setTasks] = useState(todo || []);
   const [newTask, setNewTask] = useState("");
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editTask, setEditTask] = useState("");
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(tasks));
   }, [tasks]);
-
-  const handleInputChange = (e) => {
-    setNewTask(e.target.value);
-  };
 
   const addTask = () => {
     if (newTask.trim() !== "") {
@@ -21,8 +19,11 @@ const TodoList = () => {
     }
   };
 
-  const editTask = (index) => {
-    console.log(index);
+  const editTodo = (index) => {
+    const updateTodo = tasks.map((t, i) => (i === index ? editTask : t));
+    setTasks(updateTodo);
+    setEditingIndex(null);
+    setEditTask("");
   };
 
   const removeTask = (index) => {
@@ -44,7 +45,7 @@ const TodoList = () => {
             id="todo"
             name="todo"
             value={newTask}
-            onChange={handleInputChange}
+            onChange={(e) => setNewTask(e.target.value)}
             placeholder="write your task :"
             className="h-[35px] p-2"
           />
@@ -61,7 +62,33 @@ const TodoList = () => {
           {tasks.map((task, index) => {
             return (
               <li key={index} className="border rounded-4xl p-4 flex gap-6">
-                <span>{task}</span>
+                {editingIndex === index ? (
+                  <div className="border rounded-xl p-4 mb-4 flex justify-center items-center">
+                    <label htmlFor="todo"></label>
+                    <input
+                      type="text"
+                      id="todo"
+                      name="todo"
+                      value={editTask}
+                      onChange={(e) => setEditTask(e.target.value)}
+                      placeholder="Edit your task :"
+                      className="h-[35px] p-2"
+                    />
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => editTodo(index)}
+                    >
+                      <div className="border rounded-full">
+                        <img
+                          src="/save_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                          alt="add"
+                        />
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <span>{task}</span>
+                )}
                 <button
                   className="cursor-pointer"
                   onClick={() => removeTask(index)}
@@ -75,7 +102,10 @@ const TodoList = () => {
                 </button>
                 <button
                   className="cursor-pointer"
-                  onClick={() => editTask(index)}
+                  onClick={() => {
+                    setEditingIndex(index);
+                    setEditTask(task);
+                  }}
                 >
                   <div className="">
                     <img
