@@ -45,10 +45,13 @@ const TodoList = () => {
           setNewTodo={setNewTodo}
           addTodo={addTodo}
         />
-        <ol className="list-decimal flex flex-col gap-4">
+        <ol className="list-decimal flex flex-col gap-6">
           {allTodos.map((task, index) => {
             return (
-              <li key={index} className="border rounded-4xl p-4 flex gap-6">
+              <li
+                key={index}
+                className="border rounded-4xl px-6 py-4 grid grid-cols-[2fr_1fr] justify-between gap-6"
+              >
                 {editingIndex === index ? (
                   <EditForm
                     editTodo={editTodo}
@@ -57,33 +60,40 @@ const TodoList = () => {
                     index={index}
                   />
                 ) : (
-                  <span>{task}</span>
+                  <div className="flex gap-6">
+                    <input type="checkbox" name="" id="" />
+                    <p className="break-all">{task}</p>
+                  </div>
                 )}
-                <button
-                  className="cursor-pointer"
-                  onClick={() => removeTodo(index)}
-                >
-                  <div className="">
-                    <img
-                      src="/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                      alt="add"
-                    />
-                  </div>
-                </button>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setEditingIndex(index);
-                    setEditTodo(task);
-                  }}
-                >
-                  <div className="">
-                    <img
-                      src="/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                      alt="add"
-                    />
-                  </div>
-                </button>
+                <div className="flex justify-end gap-6">
+                  {editingIndex !== index && (
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setEditingIndex(index);
+                        setEditTodo(task);
+                      }}
+                    >
+                      <div className="">
+                        <img
+                          src="/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                          alt="add"
+                        />
+                      </div>
+                    </button>
+                  )}
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => removeTodo(index)}
+                  >
+                    <div className="">
+                      <img
+                        src="/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                        alt="add"
+                      />
+                    </div>
+                  </button>
+                </div>
               </li>
             );
           })}
