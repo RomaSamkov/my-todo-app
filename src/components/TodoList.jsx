@@ -9,6 +9,7 @@ const TodoList = () => {
   const [newTodo, setNewTodo] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
   const [editTodo, setEditTodo] = useState("");
+  // const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(allTodos));
@@ -31,6 +32,12 @@ const TodoList = () => {
   const removeTodo = (index) => {
     const filteredTasks = allTodos.filter((t, i) => i !== index);
     setAllTodos(filteredTasks);
+  };
+
+  const background = "";
+  const handleCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    console.log(isChecked);
   };
 
   return (
@@ -61,8 +68,13 @@ const TodoList = () => {
                   />
                 ) : (
                   <div className="flex gap-6">
-                    <input type="checkbox" name="" id="" />
-                    <p className="break-all">{task}</p>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      onChange={handleCheckbox}
+                    />
+                    <p className={`break-all ${background}`}>{task}</p>
                   </div>
                 )}
                 <div className="flex justify-end gap-6">
