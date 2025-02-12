@@ -1,34 +1,36 @@
 import { useEffect, useState } from "react";
+import EditForm from "./EditForm";
+import InputForm from "./InputForm";
 
 const TodoList = () => {
   const todo = JSON.parse(localStorage.getItem("todo"));
 
-  const [tasks, setTasks] = useState(todo || []);
-  const [newTask, setNewTask] = useState("");
+  const [allTodos, setAllTodos] = useState(todo || []);
+  const [newTodo, setNewTodo] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
-  const [editTask, setEditTask] = useState("");
+  const [editTodo, setEditTodo] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("todo", JSON.stringify(tasks));
-  }, [tasks]);
+    localStorage.setItem("todo", JSON.stringify(allTodos));
+  }, [allTodos]);
 
-  const addTask = () => {
-    if (newTask.trim() !== "") {
-      setTasks([...tasks, newTask]);
-      setNewTask("");
+  const addTodo = () => {
+    if (newTodo.trim() !== "") {
+      setAllTodos([...allTodos, newTodo]);
+      setNewTodo("");
     }
   };
 
-  const editTodo = (index) => {
-    const updateTodo = tasks.map((t, i) => (i === index ? editTask : t));
-    setTasks(updateTodo);
+  const editingTodo = (index) => {
+    const updateTodo = allTodos.map((t, i) => (i === index ? editTodo : t));
+    setAllTodos(updateTodo);
     setEditingIndex(null);
-    setEditTask("");
+    setEditTodo("");
   };
 
-  const removeTask = (index) => {
-    const filteredTasks = tasks.filter((t, i) => i !== index);
-    setTasks(filteredTasks);
+  const removeTodo = (index) => {
+    const filteredTasks = allTodos.filter((t, i) => i !== index);
+    setAllTodos(filteredTasks);
   };
 
   return (
@@ -38,60 +40,28 @@ const TodoList = () => {
       </header>
       <main className="flex flex-col justify-center items-center">
         <h2 className="text-[28px] mb-6">Todo list:</h2>
-        <div className="border rounded-xl p-4 mb-4 flex justify-center items-center">
-          <label htmlFor="todo"></label>
-          <input
-            type="text"
-            id="todo"
-            name="todo"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="write your task :"
-            className="h-[35px] p-2"
-          />
-          <button className="cursor-pointer" onClick={addTask}>
-            <div className="border rounded-full">
-              <img
-                src="/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                alt="add"
-              />
-            </div>
-          </button>
-        </div>
+        <InputForm
+          newTodo={newTodo}
+          setNewTodo={setNewTodo}
+          addTodo={addTodo}
+        />
         <ol className="list-decimal flex flex-col gap-4">
-          {tasks.map((task, index) => {
+          {allTodos.map((task, index) => {
             return (
               <li key={index} className="border rounded-4xl p-4 flex gap-6">
                 {editingIndex === index ? (
-                  <div className="border rounded-xl p-4 mb-4 flex justify-center items-center">
-                    <label htmlFor="todo"></label>
-                    <input
-                      type="text"
-                      id="todo"
-                      name="todo"
-                      value={editTask}
-                      onChange={(e) => setEditTask(e.target.value)}
-                      placeholder="Edit your task :"
-                      className="h-[35px] p-2"
-                    />
-                    <button
-                      className="cursor-pointer"
-                      onClick={() => editTodo(index)}
-                    >
-                      <div className="border rounded-full">
-                        <img
-                          src="/save_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                          alt="add"
-                        />
-                      </div>
-                    </button>
-                  </div>
+                  <EditForm
+                    editTodo={editTodo}
+                    setEditTodo={setEditTodo}
+                    editingTodo={editingTodo}
+                    index={index}
+                  />
                 ) : (
                   <span>{task}</span>
                 )}
                 <button
                   className="cursor-pointer"
-                  onClick={() => removeTask(index)}
+                  onClick={() => removeTodo(index)}
                 >
                   <div className="">
                     <img
@@ -104,7 +74,7 @@ const TodoList = () => {
                   className="cursor-pointer"
                   onClick={() => {
                     setEditingIndex(index);
-                    setEditTask(task);
+                    setEditTodo(task);
                   }}
                 >
                   <div className="">
