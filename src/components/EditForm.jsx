@@ -8,8 +8,8 @@ const EditForm = ({ editTodo, setEditTodo, editingTodo, index }) => {
         type="text"
         id="todo"
         name="todo"
-        value={editTodo}
-        onChange={(e) => setEditTodo(e.target.value)}
+        value={editTodo.text || ""}
+        onChange={(e) => setEditTodo({ ...editTodo, text: e.target.value })}
         placeholder="Edit your task :"
         className="h-[35px] p-2"
       />
@@ -26,7 +26,10 @@ const EditForm = ({ editTodo, setEditTodo, editingTodo, index }) => {
 };
 
 EditForm.propTypes = {
-  editTodo: PropTypes.string,
+  editTodo: PropTypes.shape({
+    text: PropTypes.string,
+    checked: PropTypes.bool,
+  }),
   setEditTodo: PropTypes.func,
   editingTodo: PropTypes.func,
   index: PropTypes.number,
