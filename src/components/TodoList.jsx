@@ -8,8 +8,7 @@ const TodoList = () => {
   const [allTodos, setAllTodos] = useState(todo || []);
   const [newTodo, setNewTodo] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
-  const [editTodo, setEditTodo] = useState("");
-  // const [isChecked, setIsChecked] = useState(false);
+  const [editTodo, setEditTodo] = useState({ text: "", checked: false });
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(allTodos));
@@ -17,7 +16,7 @@ const TodoList = () => {
 
   const addTodo = () => {
     if (newTodo.trim() !== "") {
-      setAllTodos([...allTodos, newTodo]);
+      setAllTodos([...allTodos, { text: newTodo, checked: false }]);
       setNewTodo("");
     }
   };
@@ -26,7 +25,7 @@ const TodoList = () => {
     const updateTodo = allTodos.map((t, i) => (i === index ? editTodo : t));
     setAllTodos(updateTodo);
     setEditingIndex(null);
-    setEditTodo("");
+    setEditTodo({ text: "", checked: false });
   };
 
   const removeTodo = (index) => {
@@ -34,10 +33,10 @@ const TodoList = () => {
     setAllTodos(filteredTasks);
   };
 
-  const background = "";
-  const handleCheckbox = (e) => {
-    const isChecked = e.target.checked;
-    console.log(isChecked);
+  const handleCheckbox = (index) => {
+    setAllTodos((prevTodos) =>
+      prevTodos.map((t, i) => (i === index ? { ...t, checked: !t.checked } : t))
+    );
   };
 
   return (
@@ -68,13 +67,13 @@ const TodoList = () => {
                   />
                 ) : (
                   <div className="flex gap-6">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id=""
-                      onChange={handleCheckbox}
-                    />
-                    <p className={`break-all ${background}`}>{task}</p>
+                    <p
+                      className={`break-all ${
+                        task.checked ? "line-through" : ""
+                      }`}
+                    >
+                      {task.text}
+                    </p>
                   </div>
                 )}
                 <div className="flex justify-end gap-6">
@@ -105,6 +104,13 @@ const TodoList = () => {
                       />
                     </div>
                   </button>
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    checked={task.checked}
+                    onChange={() => handleCheckbox(index)}
+                  />
                 </div>
               </li>
             );
