@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import EditForm from "./EditForm";
 import InputForm from "./InputForm";
+import Button from "./Button";
+import Checkbox from "./Checkbox";
 
 const TodoList = () => {
   const todo = JSON.parse(localStorage.getItem("todo"));
@@ -67,36 +69,10 @@ const TodoList = () => {
                   />
                 ) : (
                   <div className="flex items-center">
-                    <label htmlFor="checkbox"></label>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="checkbox"
+                    <Checkbox
                       checked={task.checked}
                       onChange={() => handleCheckbox(index)}
-                      className="relative peer shrink-0
-                      appearance-none w-4 h-4 border-2 border-blue-500 rounded-sm bg-white
-                      mt-1
-                      checked:bg-blue-800 checked:border-0
-                      focus:outline-none focus:ring-offset-0 focus:ring-2 focus:ring-blue-100
-                      disabled:border-steel-400 disabled:bg-steel-400 cursor-pointer"
                     />
-                    <svg
-                      className="
-                      absolute
-                      w-4 h-4 mt-1
-                      hidden peer-checked:block
-                      pointer-events-none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
                     <div
                       className={`flex gap-6 ml-2 ${
                         task.checked
@@ -106,7 +82,7 @@ const TodoList = () => {
                     >
                       <p
                         className={`break-word rounded-2xl px-4 ${
-                          task.checked ? "line-throug" : ""
+                          task.checked ? "line-through" : ""
                         }`}
                       >
                         {task.text}
@@ -116,32 +92,18 @@ const TodoList = () => {
                 )}
                 <div className="flex justify-end gap-2">
                   {editingIndex !== index && (
-                    <button
-                      className="cursor-pointer"
+                    <Button
                       onClick={() => {
                         setEditingIndex(index);
                         setEditTodo(task);
                       }}
-                    >
-                      <div className="">
-                        <img
-                          src="/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                          alt="add"
-                        />
-                      </div>
-                    </button>
+                      src={"/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"}
+                    />
                   )}
-                  <button
-                    className="cursor-pointer"
+                  <Button
                     onClick={() => removeTodo(index)}
-                  >
-                    <div className="">
-                      <img
-                        src="/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-                        alt="add"
-                      />
-                    </div>
-                  </button>
+                    src={"/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"}
+                  />
                 </div>
               </li>
             );
