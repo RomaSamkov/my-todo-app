@@ -79,7 +79,7 @@ const TodoList = () => {
                       mt-1
                       checked:bg-blue-800 checked:border-0
                       focus:outline-none focus:ring-offset-0 focus:ring-2 focus:ring-blue-100
-                      disabled:border-steel-400 disabled:bg-steel-400"
+                      disabled:border-steel-400 disabled:bg-steel-400 cursor-pointer"
                     />
                     <svg
                       className="
@@ -105,7 +105,7 @@ const TodoList = () => {
                       }`}
                     >
                       <p
-                        className={`break-all rounded-2xl px-4 ${
+                        className={`break-word rounded-2xl px-4 ${
                           task.checked ? "line-throug" : ""
                         }`}
                       >
