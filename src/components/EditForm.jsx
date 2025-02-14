@@ -24,7 +24,7 @@ const EditForm = ({ editTodo, setEditTodo, editingTodo, index }) => {
   }, [editingTodo, index]);
   return (
     <div
-      className="border rounded-xl p-4 mb-4 flex justify-center items-center"
+      className="border rounded-xl p-4 flex justify-center items-center"
       ref={editRef}
     >
       <label htmlFor="todo"></label>
@@ -39,11 +39,12 @@ const EditForm = ({ editTodo, setEditTodo, editingTodo, index }) => {
         className="h-[35px] p-2"
       />
       <button className="cursor-pointer" onClick={() => editingTodo(index)}>
-        <div className="border rounded-full">
+        <div className="flex px-2 gap-2 border rounded-2xl">
           <img
             src="/save_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
             alt="add"
           />
+          <span>Save</span>
         </div>
       </button>
     </div>
